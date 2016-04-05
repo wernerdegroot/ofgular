@@ -16,10 +16,12 @@
     "url": "https://github.com/wernerdegroot/ortec-finance-angular/issues"
   },
   "devDependencies": {
+    "angular": "^1.5.3",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.0",
     "gulp-tsc": "^1.1.5",
+    "gulp-typings": "^1.3.4",
     "requirejs": "^2.2.0",
     "typescript": "^1.8.9",
     "vinyl-paths": "^2.1.0"
