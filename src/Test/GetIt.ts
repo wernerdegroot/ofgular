@@ -1,0 +1,1 @@
+export var rups: number = 4;

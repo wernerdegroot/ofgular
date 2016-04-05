@@ -1,0 +1,27 @@
+{
+  "name": "ortec-finance-angular",
+  "version": "0.0.0",
+  "description": "AngularJS framework for Ortec Finance",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wernerdegroot/ortec-finance-angular.git"
+  },
+  "author": "Werner de Groot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wernerdegroot/ortec-finance-angular/issues"
+  },
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-tsc": "^1.1.5",
+    "requirejs": "^2.2.0",
+    "typescript": "^1.8.9",
+    "vinyl-paths": "^2.1.0"
+  }
+}
