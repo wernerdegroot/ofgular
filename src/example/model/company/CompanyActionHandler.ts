@@ -25,7 +25,7 @@ export class CompanyActionHandler {
     
     private getPersonWithIdFocus(id: number): Focus<Company, Person> {
         
-        const personInPersonListFocus = createListElementFocus((person: Person) => person.id === id);
+        const personInPersonListFocus = createListElementFocus<Person>(person => person.id === id);
         const employeesFocus = this.getEmployeesFocus(); 
         
         return employeesFocus.compose(personInPersonListFocus);
