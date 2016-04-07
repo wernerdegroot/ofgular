@@ -1,4 +1,4 @@
-import { PersonAction } from 'examples/example/model/person/PersonAction';
+import { PersonAction } from 'examples/crud/model/person/PersonAction';
 
 export type CompanyAction 
     = EmployeeAction;

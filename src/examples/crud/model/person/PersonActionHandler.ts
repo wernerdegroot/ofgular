@@ -1,9 +1,9 @@
-import { Person, PersonBuilder } from 'examples/example/model/person/Person';
-import { PersonAction, UpdatePersonAction } from 'examples/example/model/person/PersonAction';
+import { Person, PersonBuilder } from 'examples/crud/model/person/Person';
+import { PersonAction, UpdatePersonAction } from 'examples/crud/model/person/PersonAction';
 
 export class PersonActionHandler {
     
-    public static className: string = 'examples.example.model.person.PersonActionHandler';
+    public static className: string = 'examples.crud.model.person.PersonActionHandler';
     
     public handle(model: Person, action: PersonAction): Person {
         

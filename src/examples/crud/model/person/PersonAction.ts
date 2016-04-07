@@ -1,4 +1,4 @@
-import { PersonBuilder } from 'examples/example/model/person/Person'; 
+import { PersonBuilder } from 'examples/crud/model/person/Person'; 
 
 export type PersonAction 
     = UpdatePersonAction;

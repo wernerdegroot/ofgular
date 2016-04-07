@@ -1,4 +1,4 @@
-import { Person } from 'examples/example/model/person/Person';
+import { Person } from 'examples/crud/model/person/Person';
 
 export class Company {
     

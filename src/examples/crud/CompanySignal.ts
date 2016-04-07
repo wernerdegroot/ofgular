@@ -1,10 +1,10 @@
 import { ConcreteSignal } from 'ortec/finance/angular/signal/ConcreteSignal';
-import { Company } from 'examples/example/model/company/Company';
-import { CompanyFactory } from 'examples/example/model/company/CompanyFactory';
+import { Company } from 'examples/crud/model/company/Company';
+import { CompanyFactory } from 'examples/crud/model/company/CompanyFactory';
 
 export class CompanySignal extends ConcreteSignal<Company> {
 
-    public static className: string = 'examples.example.CompanySignal';
+    public static className: string = 'examples.crud.CompanySignal';
     public static $inject: string[] = [
         CompanyFactory.className
     ];

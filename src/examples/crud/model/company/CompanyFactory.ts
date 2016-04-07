@@ -2,12 +2,12 @@
 
 import IQService = angular.IQService;
 import IPromise = angular.IPromise;
-import { Company } from 'examples/example/model/company/Company';
-import { Person } from 'examples/example/model/person/Person';
+import { Company } from 'examples/crud/model/company/Company';
+import { Person } from 'examples/crud/model/person/Person';
 
 export class CompanyFactory {
     
-    public static className: string = 'examples.example.CompanyFactory';
+    public static className: string = 'examples.crud.CompanyFactory';
     public static $inject: string[] = [
         '$q'
     ]

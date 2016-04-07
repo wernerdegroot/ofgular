@@ -1,8 +1,8 @@
 /// <reference path="../../../typings/main.d.ts" />
 
-import { CompanySignal } from 'examples/example/CompanySignal';
-import { PersonActionHandler } from 'examples/example/model/person/PersonActionHandler';
-import { CompanyActionHandler } from 'examples/example/model/company/CompanyActionHandler';
+import { CompanySignal } from 'examples/crud/CompanySignal';
+import { PersonActionHandler } from 'examples/crud/model/person/PersonActionHandler';
+import { CompanyActionHandler } from 'examples/crud/model/company/CompanyActionHandler';
 
 angular.module('example', [])
 

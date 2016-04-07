@@ -1,7 +1,7 @@
-import { Company } from 'examples/example/model/company/Company';
-import { Person } from 'examples/example/model/person/Person';
-import { PersonActionHandler } from 'examples/example/model/person/PersonActionHandler';
-import { CompanyAction, EmployeeAction } from 'examples/example/model/company/CompanyAction';
+import { Company } from 'examples/crud/model/company/Company';
+import { Person } from 'examples/crud/model/person/Person';
+import { PersonActionHandler } from 'examples/crud/model/person/PersonActionHandler';
+import { CompanyAction, EmployeeAction } from 'examples/crud/model/company/CompanyAction';
 import { Focus } from 'ortec/finance/angular/focus/Focus';
 import { Focussed } from 'ortec/finance/angular/focus/Focussed';
 import { createFocus, createListElementFocus } from 'ortec/finance/angular/focus/util';
