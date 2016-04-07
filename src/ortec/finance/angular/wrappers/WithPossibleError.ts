@@ -7,6 +7,14 @@ export class WithPossibleError<T> {
 	public constructor(public value: T, public errorMessage: string) {
 		
 	}
+    
+    public static withoutError<T>(value: T) {
+        return new WithPossibleError<T>(value, null);
+    }
+    
+    public static withError<T>(value: T, errorMessage: string) {
+        return new WithPossibleError<T>(value, errorMessage);
+    }
 	
 	public static getValue<T>(withError: WithPossibleError<T>): T {
 		return withError.value;

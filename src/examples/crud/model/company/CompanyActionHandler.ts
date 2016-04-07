@@ -5,6 +5,8 @@ import { CompanyAction, EmployeeAction } from 'examples/crud/model/company/Compa
 import { Focus } from 'ortec/finance/angular/focus/Focus';
 import { Focussed } from 'ortec/finance/angular/focus/Focussed';
 import { createFocus, createListElementFocus } from 'ortec/finance/angular/focus/util';
+import { WithPossibleError } from 'ortec/finance/angular/wrappers/WithPossibleError';
+import { Expandable } from 'ortec/finance/angular/wrappers/Expandable';
 
 export class CompanyActionHandler {
 
@@ -17,18 +19,22 @@ export class CompanyActionHandler {
 
     }
     
-    private getEmployeesFocus(): Focus<Company, Person[]> {
-        return createFocus<Company, Person[]>(
-            company => company.employees, 
-            (company, employees) => new Company(company.name, company.employees));
+    private getEmployeesFocus(): Focus<Company, WithPossibleError<Expandable<Person>>[]> {
+        
+        return createFocus<Company, WithPossibleError<Expandable<Person>>[]>(
+            company => company.expandableEmployeesWithPossibleError, 
+            (company, expandableEmployeesWithPossibleError) => new Company(company.name, expandableEmployeesWithPossibleError));
     }
     
     private getPersonWithIdFocus(id: number): Focus<Company, Person> {
         
-        const personInPersonListFocus = createListElementFocus<Person>(person => person.id === id);
+        const personInPersonListFocus = createListElementFocus<WithPossibleError<Expandable<Person>>>(person => person.value.value.id === id);
         const employeesFocus = this.getEmployeesFocus(); 
         
-        return employeesFocus.compose(personInPersonListFocus);
+        return employeesFocus
+            .compose(personInPersonListFocus)
+            .compose(WithPossibleError.getFocus<Expandable<Person>>())
+            .compose(Expandable.getFocus<Person>());
     }
     
     private getFocussedOnPerson(id: number, company: Company): Focussed<Company, Person> {
