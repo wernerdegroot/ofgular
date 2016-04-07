@@ -50,6 +50,16 @@ gulp.task('compile', ['clean-dist-src'], function () {
         .pipe(gulp.dest(distSrcDir));
 });
 
+gulp.task('dist', ['clean-dist-src'], function () {
+    return gulp.src([srcDir + '/**/*.ts'])
+        .pipe(typescript({
+            out: typeScriptOptions.outputFile,
+            module: typeScriptOptions.moduleType,
+            declaration: 'declaration'
+        }))
+        .pipe(gulp.dest(distSrcDir));
+});
+
 gulp.task('compose-libs', ['clean-dist-lib'], function () {
     return gulp.src(libraryFiles)
         .pipe(concat(libOptions.outputFile))
