@@ -22,8 +22,8 @@ export class CompanyActionHandler {
     private getEmployeesFocus(): Focus<Company, WithPossibleError<Expandable<Person>>[]> {
         
         return createFocus<Company, WithPossibleError<Expandable<Person>>[]>(
-            company => company.expandableEmployeesWithPossibleError, 
-            (company, expandableEmployeesWithPossibleError) => new Company(company.name, expandableEmployeesWithPossibleError));
+            company => company.expandableEmployeesWithPossibleErrors, 
+            (company, expandableEmployeesWithPossibleErrors) => new Company(company.name, expandableEmployeesWithPossibleErrors));
     }
     
     private getPersonWithIdFocus(id: number): Focus<Company, Person> {

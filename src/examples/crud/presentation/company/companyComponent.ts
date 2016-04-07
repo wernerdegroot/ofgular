@@ -22,7 +22,7 @@ export var companyComponent: IComponentOptions = {
     template
         : '<h1>{{$ctrl.company.name}}</h1>'
         + '<ul>'
-        + '    <li ng-repeat="expandableEmployeeWithPossibleError in $ctrl.company.expandableEmployeesWithPossibleError" ng-init="expandableEmployee = expandableEmployeeWithPossibleError.value; employee = expandableEmployee.value">'
+        + '    <li ng-repeat="expandableEmployeeWithPossibleError in $ctrl.company.expandableEmployeesWithPossibleErrors" ng-init="expandableEmployee = expandableEmployeeWithPossibleError.value; employee = expandableEmployee.value">'
         + '        <h2>{{employee.firstName}} {{employee.lastName}}</h2>'
         + '    </li>'
         + '</ul>',

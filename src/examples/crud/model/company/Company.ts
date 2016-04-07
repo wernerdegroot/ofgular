@@ -6,7 +6,7 @@ export class Company {
     
     public constructor(
         public name: string,
-        public expandableEmployeesWithPossibleError: WithPossibleError<Expandable<Person>>[]) {
+        public expandableEmployeesWithPossibleErrors: WithPossibleError<Expandable<Person>>[]) {
     }
     
 }
