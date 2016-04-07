@@ -9,9 +9,9 @@ export class CompanyActionHandler {
     public static $inject: string[] = [
         PersonActionHandler.className
     ];
-    
+
     public constructor(private personActionHandler: PersonActionHandler) {
-        
+
     }
 
     handle(model: Company, action: CompanyAction): Company {
@@ -28,6 +28,8 @@ export class CompanyActionHandler {
                     }
 
                 });
+
+            return new Company(model.name, updatedEmployees);
 
         }
 

@@ -1,6 +1,6 @@
 /// <reference path="../../typings/main.d.ts" />
 
-import { CompanySignal } from 'example/model/company/CompanySignal';
+import { CompanySignal } from 'example/CompanySignal';
 import { PersonActionHandler } from 'example/model/person/PersonActionHandler';
 import { CompanyActionHandler } from 'example/model/company/CompanyActionHandler';
 

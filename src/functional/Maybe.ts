@@ -75,7 +75,7 @@ export class Nothing<T> extends Maybe<T> {
         super();
     }
     
-    abstract withDefault(defaultValue: T): T {
+    public withDefault(defaultValue: T): T {
         return defaultValue;
     }
 
