@@ -23,7 +23,7 @@ export class Focussed<BIG_TYPE, SMALL_TYPE> {
 		return new Focussed(this.focus, this.focus.updateValue(this.big, small));
 	}
 	
-	public deeper<EVEN_SMALLER_TYPE>(smallerFocus: Focus<SMALL_TYPE, EVEN_SMALLER_TYPE>): Focussed<BIG_TYPE, EVEN_SMALLER_TYPE> {
+	public refocus<EVEN_SMALLER_TYPE>(smallerFocus: Focus<SMALL_TYPE, EVEN_SMALLER_TYPE>): Focussed<BIG_TYPE, EVEN_SMALLER_TYPE> {
 		const deeperFocus = this.focus.compose(smallerFocus);
 		return new Focussed(deeperFocus, this.big);
 	}
