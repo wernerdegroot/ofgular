@@ -7,7 +7,7 @@ import { EditableCompanyAction, DeleteEmployeeAction, WrappedEditableEmployeeAct
 import { EditableEmployee } from 'examples/crud/model/employee/EditableEmployee';
 import { Dispatcher } from 'ortec/finance/angular/signal/Dispatcher';
 import { Employee } from 'examples/crud/model/employee/Employee';
-import { ToggleAction } from 'examples/crud/model/employee/EditableEmployeeAction';
+import { EditableEmployeeAction } from 'examples/crud/model/employee/EditableEmployeeAction';
 import { Synced } from 'ortec/finance/angular/synchronized/util';
 
 class EditableCompanyController {
@@ -26,8 +26,8 @@ class EditableCompanyController {
         return this.editableCompany.getSynchronizedEmployees(this.company.getEmployees());
     }
     
-    public toggleEmployee(employee: Employee) {
-        this.getDispatcher().send(new WrappedEditableEmployeeAction(employee.getId(), new ToggleAction()));
+    public getEditableEmployeeDispatcher(employee: Employee): Dispatcher<EditableEmployeeAction> {
+        return this.getDispatcher().forward((editableEmployeeAction: EditableEmployeeAction) => new WrappedEditableEmployeeAction(employee.getId(), editableEmployeeAction));
     }
     
 }
@@ -39,13 +39,11 @@ export var editableCompanyComponent: IComponentOptions = {
         + '    <li '
         + '        ng-repeat="synchronizedEmployee in $ctrl.getSynchronizedEmployees()"'
         + '        ng-init="employee = synchronizedEmployee.getSource(); editableEmployee = synchronizedEmployee.getToSync()">'
-        + '        <h3>{{employee.getFirstName()}} {{employee.getLastName()}} <button ng-click="$ctrl.toggleEmployee(employee)">+/-</button></h3>'
-        + '        <div ng-if="editableEmployee.isExpanded()">'
-        + '            <ul>'
-        + '                <li>First name: {{editableEmployee.getFirstName()}}</li>'
-        + '                <li>Last name: {{editableEmployee.getLastName()}}</li>'
-        + '            </ul>'
-        + '        </div>'
+        + '        <editable-employee'
+        + '            employee="employee"'
+        + '            editable-employee="editableEmployee"'
+        + '            dispatcher="$ctrl.getEditableEmployeeDispatcher(employee)">'
+        + '        </editable-employee>'
         + '    </li>'
         + '</ul>',
     controller: EditableCompanyController,

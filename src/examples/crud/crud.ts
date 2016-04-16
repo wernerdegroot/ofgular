@@ -3,6 +3,7 @@
 import { modelComponent, modelComponentName } from 'examples/crud/presentation/modelComponent';
 import { companyComponent, companyComponentName } from 'examples/crud/presentation/company/companyComponent';
 import { editableCompanyComponent, editableCompanyComponentName } from 'examples/crud/presentation/company/editableCompanyComponent';
+import { editableEmployeeComponent, editableEmployeeComponentName } from 'examples/crud/presentation/employee/editableEmployeeComponent';
 import { ModelSignal } from 'examples/crud/ModelSignal';
 import { ModelDispatcher } from 'examples/crud/ModelDispatcher';
 import { ModelActionHandler } from 'examples/crud/model/ModelActionHandler';
@@ -19,6 +20,8 @@ angular.module('crud', [])
     .component(companyComponentName, companyComponent)
     
     .component(editableCompanyComponentName, editableCompanyComponent)
+    
+    .component(editableEmployeeComponentName, editableEmployeeComponent)
     
     .service(ModelSignal.className, ModelSignal)
     
