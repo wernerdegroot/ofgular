@@ -2,32 +2,37 @@
 
 import IComponentOptions = angular.IComponentOptions;
 import { Company } from 'examples/crud/model/company/Company';
-import { CompanySignal } from 'examples/crud/CompanySignal';
+import { Employee } from 'examples/crud/model/employee/Employee';
+import { CompanyAction, DeleteEmployeeAction } from 'examples/crud/model/company/CompanyAction';
+import { Dispatcher } from 'ortec/finance/angular/signal/Dispatcher';
 
 class CompanyController {
     
     public company: Company;
     
-    public static $inject: string[] = [CompanySignal.className];
+    public getDispatcher: () => Dispatcher<CompanyAction>;
     
-    public constructor(private companySignal: CompanySignal) {
-        
-        this.companySignal.onChange(company => this.company = company);
-        
+    public deleteEmployee(employee: Employee) {
+        this.getDispatcher().send(new DeleteEmployeeAction(employee.getId()));
     }
+    
+    
     
 }
 
 export var companyComponent: IComponentOptions = {
     template
-        : '<h1>{{$ctrl.company.name}}</h1>'
+        : '<h2>{{$ctrl.company.name}}</h2>'
         + '<ul>'
-        + '    <li ng-repeat="expandableEmployeeWithPossibleError in $ctrl.company.expandableEmployeesWithPossibleErrors" ng-init="expandableEmployee = expandableEmployeeWithPossibleError.value; employee = expandableEmployee.value">'
-        + '        <h2>{{employee.firstName}} {{employee.lastName}}</h2>'
+        + '    <li ng-repeat="employee in $ctrl.company.getEmployees()">'
+        + '        <h3>{{employee.getFirstName()}} {{employee.getLastName()}} <button ng-click="$ctrl.deleteEmployee(employee)">X</button></h3>'
         + '    </li>'
         + '</ul>',
     controller: CompanyController,
-    bindings: {}
+    bindings: {
+        company: '=',
+        getDispatcher: '&dispatcher'
+    }
 };
 
 export var companyComponentName: string = 'company'

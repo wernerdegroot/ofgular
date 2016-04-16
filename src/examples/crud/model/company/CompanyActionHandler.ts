@@ -1,54 +1,52 @@
-import { Company } from 'examples/crud/model/company/Company';
-import { Person } from 'examples/crud/model/person/Person';
-import { PersonActionHandler } from 'examples/crud/model/person/PersonActionHandler';
-import { CompanyAction, EmployeeAction } from 'examples/crud/model/company/CompanyAction';
-import { Focus } from 'ortec/finance/angular/focus/Focus';
-import { Focussed } from 'ortec/finance/angular/focus/Focussed';
-import { createFocus, createListElementFocus } from 'ortec/finance/angular/focus/util';
-import { WithPossibleError } from 'ortec/finance/angular/wrappers/WithPossibleError';
-import { Expandable } from 'ortec/finance/angular/wrappers/Expandable';
+import { Company, CompanyBuilder } from 'examples/crud/model/company/Company';
+import { Employee } from 'examples/crud/model/employee/Employee';
+import { CompanyAction, CreateEmployeeAction, UpdateEmployeeAction, DeleteEmployeeAction, UpdateCompanyNameAction } from 'examples/crud/model/company/CompanyAction';
 
 export class CompanyActionHandler {
 
     public static className: string = 'exmaple.model.company.CompanyActionHandler';
-    public static $inject: string[] = [
-        PersonActionHandler.className
-    ];
-    
-    public constructor(private personActionHandler: PersonActionHandler) {
-
-    }
-    
-    private getEmployeesFocus(): Focus<Company, WithPossibleError<Expandable<Person>>[]> {
-        
-        return createFocus<Company, WithPossibleError<Expandable<Person>>[]>(
-            company => company.expandableEmployeesWithPossibleErrors, 
-            (company, expandableEmployeesWithPossibleErrors) => new Company(company.name, expandableEmployeesWithPossibleErrors));
-    }
-    
-    private getPersonWithIdFocus(id: number): Focus<Company, Person> {
-        
-        const personInPersonListFocus = createListElementFocus<WithPossibleError<Expandable<Person>>>(person => person.value.value.id === id);
-        const employeesFocus = this.getEmployeesFocus(); 
-        
-        return employeesFocus
-            .compose(personInPersonListFocus)
-            .compose(WithPossibleError.getFocus<Expandable<Person>>())
-            .compose(Expandable.getFocus<Person>());
-    }
-    
-    private getFocussedOnPerson(id: number, company: Company): Focussed<Company, Person> {
-        return new Focussed<Company, Person>(this.getPersonWithIdFocus(id), company);
-    }
 
     public handle(model: Company, action: CompanyAction): Company {
 
-        if (action instanceof EmployeeAction) {
+        if (action instanceof CreateEmployeeAction) {
 
-            return this
-                .getFocussedOnPerson(action.employeeId, model)
-                .updateValueWith(employee => this.personActionHandler.handle(employee, action.employeeAction))
-                .getRoot();
+            const employees = model
+                .getEmployees()
+                .concat([action.getEmployee()]);
+
+            return new CompanyBuilder()
+                .setEmployees(employees)
+                .update(model);
+
+        } else if (action instanceof UpdateEmployeeAction) {
+
+            const employees = model
+                .getEmployees()
+                .map(employee => employee.getId() === action.getEmployeeId()
+                    ? action.getEmployee()
+                    : employee);
+
+            return new CompanyBuilder()
+                .setEmployees(employees)
+                .update(model);
+
+        } else if (action instanceof DeleteEmployeeAction) {
+
+            const employees = model
+                .getEmployees()
+                .filter(employee => employee.getId() !== action.getEmployeeId());
+
+            return new CompanyBuilder()
+                .setEmployees(employees)
+                .update(model);
+
+        } else if (action instanceof UpdateCompanyNameAction) {
+
+            return new Company(action.getCompanyName(), model.getEmployees());
+
+        } else {
+
+            throw new Error();
 
         }
 
