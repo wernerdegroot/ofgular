@@ -3,11 +3,14 @@ import { EditableEmployee } from 'examples/crud/model/employee/EditableEmployee'
 import { Employee } from 'examples/crud/model/employee/Employee';
 import { EditableEmployeeActionHandler } from 'examples/crud/model/employee/EditableEmployeeActionHandler';
 import { Company } from 'examples/crud/model/company/Company';
+import * as CA from 'examples/crud/model/company/CompanyAction';
 import { Focus } from 'ortec/finance/angular/focus/Focus';
 import { Focussed } from 'ortec/finance/angular/focus/Focussed';
 import { createFocus, createListElementFocus } from 'ortec/finance/angular/focus/util';
-import { EditableCompanyAction, WrappedEditableEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
-import { Synced } from 'ortec/finance/angular/synchronized/util';
+import { EditableCompanyAction, WrappedEditableEmployeeAction, DeleteEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
+import { Effects } from 'ortec/finance/angular/effects/Effects'
+import { SendAction } from 'ortec/finance/angular/effects/SendAction'
+import { None } from 'ortec/finance/angular/effects/None'
 
 export class EditableCompanyActionHandler {
 
@@ -20,7 +23,7 @@ export class EditableCompanyActionHandler {
 
     }
 
-    public handle(model: EditableCompany, action: EditableCompanyAction, company: Company): EditableCompany {
+    public handle(model: EditableCompany, action: EditableCompanyAction, company: Company): [ EditableCompany, Effects<CA.CompanyAction> ] {
 
         if (action instanceof WrappedEditableEmployeeAction) {
             
@@ -30,16 +33,16 @@ export class EditableCompanyActionHandler {
             
             const updatedSynchronizedEditableEmployees = synchronizedEditableEmployees.map(synchronizedEditableEmployee => {
                 
-                const employee = synchronizedEditableEmployee.getSource();
+                const employee = synchronizedEditableEmployee.getOriginal();
                 
                 if (employee.getId() === id) {
                     
                     const updatedEditableEmployee = this.editableEmployeeActionHandler.handle(
-                        synchronizedEditableEmployee.getToSync(),
+                        synchronizedEditableEmployee,
                         action.getAction(),
                         employee);
                         
-                    return new Synced<Employee, EditableEmployee>(employee, updatedEditableEmployee);
+                    return updatedEditableEmployee;
                     
                 } else {
                     
@@ -49,17 +52,24 @@ export class EditableCompanyActionHandler {
                 
             });
             
-            const updatedEditableEmployees = updatedSynchronizedEditableEmployees.map(updatedSynchronizedEditableEmployee => {
-                return updatedSynchronizedEditableEmployee.getToSync();
-            });
+            const editableCompany = new EditableCompany(updatedSynchronizedEditableEmployees, model.getEmployeeSynchronizer());
             
-            return new EditableCompany(updatedEditableEmployees, model.getEmployeeSynchronizer());
+            return [editableCompany, new None<CA.CompanyAction>()];
+            
+        } else if (action instanceof DeleteEmployeeAction) {
+            
+            const actionToSend = new CA.DeleteEmployeeAction(action.getEmployeeId());
+
+            return [model, new SendAction(actionToSend)];
 
         } else {
             
             throw {
                 description: 'Unknown action!',
-                action: action
+                self: this,
+                model: model,
+                action: action,
+                company: company
             };
             
         }

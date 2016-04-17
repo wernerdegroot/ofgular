@@ -2,8 +2,8 @@ import { Model } from 'examples/crud/model/Model';
 import { CompanyFactory } from 'examples/crud/model/company/CompanyFactory';
 import { EditableCompany } from 'examples/crud/model/company/EditableCompany';
 import { Employee } from 'examples/crud/model/employee/Employee';
-import { EditableEmployee } from 'examples/crud/model/employee/EditableEmployee';
-import { sync, Synced } from 'ortec/finance/angular/synchronized/util';
+import { EditableEmployee, EditableEmployeeBuilder } from 'examples/crud/model/employee/EditableEmployee';
+import { sync } from 'ortec/finance/angular/sync/util';
 import { Memoized } from 'ortec/finance/angular/functional/Memoized';
 
 export class ModelFactory {
@@ -23,6 +23,7 @@ export class ModelFactory {
         
         function editableEmployeeInitializer(employee: Employee): EditableEmployee {
             return new EditableEmployee(
+                employee,
                 employee.getId(),
                 employee.getFirstName(),
                 employee.getLastName(),
@@ -32,11 +33,14 @@ export class ModelFactory {
                 false);
         }
         
-        function employeeSynchronizer(employees: Employee[], editableEmployees: EditableEmployee[]): Synced<Employee, EditableEmployee>[] {
-            
-            console.log("Synchronizing employees...");
-            
-            return sync<Employee, EditableEmployee>(editableEmployeeInitializer, employees, editableEmployees);
+        function editableEmployeeMerger(employee: Employee, editableEmployee: EditableEmployee): EditableEmployee {
+            return new EditableEmployeeBuilder()
+                .setOriginal(employee)
+                .build(editableEmployee);
+        }
+        
+        function employeeSynchronizer(employees: Employee[], editableEmployees: EditableEmployee[]): EditableEmployee[] {
+            return sync<Employee, EditableEmployee>(editableEmployeeInitializer, editableEmployeeMerger, employees, editableEmployees);
         } 
         
         const editableCompany = new EditableCompany([], Memoized.create2(employeeSynchronizer)); 

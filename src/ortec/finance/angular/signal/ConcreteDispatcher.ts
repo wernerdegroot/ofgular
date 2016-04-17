@@ -22,6 +22,7 @@ export class ConcreteDispatcher<MODEL_TYPE, ACTION_TYPE> implements Dispatcher<A
         const oldModel: MODEL_TYPE = this.modelSignal.getLatestValue();
         const [ newModel, effects ] = this.actionHandler.handle(oldModel, action, this);
         this.modelSignal.send(newModel);
+        effects.do(this);
     }
 
     public forward<NEW_ACTION_TYPE>(transformation: (_1: NEW_ACTION_TYPE) => ACTION_TYPE): Dispatcher<NEW_ACTION_TYPE> {

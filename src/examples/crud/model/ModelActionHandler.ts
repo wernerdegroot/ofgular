@@ -32,11 +32,11 @@ export class ModelActionHandler implements ActionHandler<Model, ModelAction> {
             
         } else if (action instanceof WrappedEditableCompanyAction) {
             
-            const editableCompany = this.editableCompanyActionHandler.handle(model.getEditableCompany(), action.getEditableCompanyAction(), model.getCompany());
+            const [editableCompany, companyAction] = this.editableCompanyActionHandler.handle(model.getEditableCompany(), action.getEditableCompanyAction(), model.getCompany());
             
             return [
                 new Model(model.getCompany(), editableCompany),
-                new None<ModelAction>()
+                companyAction.map(companyAction => new WrappedCompanyAction(companyAction))
             ];
             
         } else {

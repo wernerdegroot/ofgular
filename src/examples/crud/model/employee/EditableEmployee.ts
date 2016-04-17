@@ -4,6 +4,7 @@ import { Employee } from 'examples/crud/model/employee/Employee';
 export class EditableEmployee {
     
     public constructor(
+        private original: Employee,
         private id: number,
         private firstName: string,
         private lastName: string,
@@ -15,6 +16,7 @@ export class EditableEmployee {
     
     public reset(employee: Employee): EditableEmployee {
         return new EditableEmployee(
+            employee,
             employee.getId(),
             employee.getFirstName(),
             employee.getLastName(),
@@ -22,6 +24,10 @@ export class EditableEmployee {
             employee.getAddress(),
             employee.getCity(),
             this.expanded);
+    }
+    
+    public getOriginal(): Employee {
+        return this.original;
     }
     
     public getId(): number {
@@ -64,6 +70,7 @@ export class EditableEmployee {
 
 export class EditableEmployeeBuilder {
     
+    private original: Maybe<Employee> = Maybe.nothing<Employee>();
     private id: Maybe<number> = Maybe.nothing<number>();
     private firstName: Maybe<string> = Maybe.nothing<string>();
     private lastName: Maybe<string> = Maybe.nothing<string>();
@@ -71,6 +78,11 @@ export class EditableEmployeeBuilder {
     private address: Maybe<string> = Maybe.nothing<string>();
     private city: Maybe<string> = Maybe.nothing<string>();
     private expanded: Maybe<boolean> = Maybe.nothing<boolean>();
+    
+    public setOriginal(original: Employee): EditableEmployeeBuilder {
+        this.original = Maybe.just(original);
+        return this;
+    } 
     
     public setId(id: number): EditableEmployeeBuilder {
         this.id = Maybe.just(id);
@@ -109,6 +121,7 @@ export class EditableEmployeeBuilder {
     
     public build(editableEmployee: EditableEmployee): EditableEmployee {
         return new EditableEmployee(
+            this.original.withDefault(editableEmployee.getOriginal()),
             this.id.withDefault(editableEmployee.getId()),
             this.firstName.withDefault(editableEmployee.getFirstName()),
             this.lastName.withDefault(editableEmployee.getLastName()),

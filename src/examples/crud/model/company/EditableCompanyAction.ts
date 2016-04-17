@@ -2,7 +2,8 @@ import { EditableEmployeeAction } from 'examples/crud/model/employee/EditableEmp
 
 export type EditableCompanyAction
     = WrappedEditableEmployeeAction
-    | DeleteEmployeeAction;
+    | DeleteEmployeeAction
+    | UpdateEmployeeAction;
     
 export class ActionWithEmployeeId {
     
@@ -29,5 +30,9 @@ export class WrappedEditableEmployeeAction extends ActionWithEmployeeId {
 }
 
 export class DeleteEmployeeAction extends ActionWithEmployeeId {
+    
+}
+
+export class UpdateEmployeeAction extends ActionWithEmployeeId {
     
 }
