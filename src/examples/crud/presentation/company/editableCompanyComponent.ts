@@ -3,7 +3,7 @@
 import IComponentOptions = angular.IComponentOptions;
 import { Company } from 'examples/crud/model/company/Company';
 import { EditableCompany } from 'examples/crud/model/company/EditableCompany';
-import { EditableCompanyAction, DeleteEmployeeAction, WrappedEditableEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
+import { EditableCompanyAction, DeleteEmployeeAction, WrappedEditableEmployeeAction, UpdateEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
 import { EditableEmployee } from 'examples/crud/model/employee/EditableEmployee';
 import { Dispatcher } from 'ortec/finance/angular/signal/Dispatcher';
 import { Employee } from 'examples/crud/model/employee/Employee';
@@ -33,6 +33,10 @@ class EditableCompanyController {
         return this.getDispatcher().forward((_: void) => new DeleteEmployeeAction(editableEmployee.getId()));
     }
     
+    public getEditableEmployeeUpdateDispatcher(editableEmployee: EditableEmployee): Dispatcher<void> {
+        return this.getDispatcher().forward((_: void) => new UpdateEmployeeAction(editableEmployee.getId()));
+    }
+    
 }
 
 export var editableCompanyComponent: IComponentOptions = {
@@ -44,7 +48,8 @@ export var editableCompanyComponent: IComponentOptions = {
         + '        <editable-employee'
         + '            editable-employee="editableEmployee"'
         + '            dispatcher="$ctrl.getEditableEmployeeDispatcher(editableEmployee)"' 
-        + '            remove-dispatcher="$ctrl.getEditableEmployeeRemoveDispatcher(editableEmployee)">'
+        + '            remove-dispatcher="$ctrl.getEditableEmployeeRemoveDispatcher(editableEmployee)"'
+        + '            update-dispatcher="$ctrl.getEditableEmployeeUpdateDispatcher(editableEmployee)">'
         + '        </editable-employee>'
         + '    </li>'
         + '</ul>',

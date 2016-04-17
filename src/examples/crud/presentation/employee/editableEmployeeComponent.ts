@@ -14,6 +14,8 @@ class EditableEmployeeController {
     
     public getRemoveDispatcher: () => Dispatcher<void>;
     
+    public getUpdateDispatcher: () => Dispatcher<void>;
+    
     public getEmployee(): Employee {
         return this.editableEmployee.getOriginal();
     }
@@ -32,6 +34,10 @@ class EditableEmployeeController {
     
     public remove() {
         this.getRemoveDispatcher().send(undefined);
+    }
+    
+    public update() {
+        this.getUpdateDispatcher().send(undefined);
     }
     
     public firstName(newValue: string) {
@@ -59,14 +65,17 @@ export var editableEmployeeComponent: IComponentOptions = {
         + '    <ul>'
         + '        <li>First name: <input ng-model="$ctrl.firstName" ng-model-options="{ getterSetter: true, updateOn: \'default blur\', debounce: { default: 500, blur: 0 } }"></input></li>'
         + '        <li>Last name: <input ng-model="$ctrl.lastName" ng-model-options="{ getterSetter: true, updateOn: \'default blur\', debounce: { default: 500, blur: 0 } }"></input></li>'
-        + '        <li><button ng-click="$ctrl.reset()">Reset</button></li>'
+        + '        <li>' 
+        + '            <button ng-click="$ctrl.update()">Update</button>' 
+        + '            <button ng-click="$ctrl.reset()">Reset</button></li>'
         + '    </ul>'
         + '</div>',
     controller: EditableEmployeeController,
     bindings: {
         editableEmployee: '=',
         getDispatcher: '&dispatcher',
-        getRemoveDispatcher: '&removeDispatcher'
+        getRemoveDispatcher: '&removeDispatcher',
+        getUpdateDispatcher: '&updateDispatcher'
     }
 };
 

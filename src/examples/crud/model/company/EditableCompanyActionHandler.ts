@@ -7,7 +7,7 @@ import * as CA from 'examples/crud/model/company/CompanyAction';
 import { Focus } from 'ortec/finance/angular/focus/Focus';
 import { Focussed } from 'ortec/finance/angular/focus/Focussed';
 import { createFocus, createListElementFocus } from 'ortec/finance/angular/focus/util';
-import { EditableCompanyAction, WrappedEditableEmployeeAction, DeleteEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
+import { EditableCompanyAction, WrappedEditableEmployeeAction, DeleteEmployeeAction, UpdateEmployeeAction } from 'examples/crud/model/company/EditableCompanyAction';
 import { Effects } from 'ortec/finance/angular/effects/Effects'
 import { SendAction } from 'ortec/finance/angular/effects/SendAction'
 import { None } from 'ortec/finance/angular/effects/None'
@@ -61,6 +61,28 @@ export class EditableCompanyActionHandler {
             const actionToSend = new CA.DeleteEmployeeAction(action.getEmployeeId());
 
             return [model, new SendAction(actionToSend)];
+            
+        } else if (action instanceof UpdateEmployeeAction) {
+            
+            const editableEmployeesWithId = model.getEditableEmployees().filter(editableEmployee => editableEmployee.getId() === action.getEmployeeId());
+            
+            if (editableEmployeesWithId.length === 0) {
+                throw new Error();
+            }
+            
+            const editableEmployee = editableEmployeesWithId[0];
+            
+            const employee = new Employee(
+                editableEmployee.getId(),
+                editableEmployee.getFirstName(),
+                editableEmployee.getLastName(),
+                editableEmployee.getAge(),
+                editableEmployee.getAddress(),
+                editableEmployee.getCity());
+            
+            const actionToSend = new CA.UpdateEmployeeAction(action.getEmployeeId(), employee);
+            
+            return [model, new SendAction(actionToSend)];            
 
         } else {
             

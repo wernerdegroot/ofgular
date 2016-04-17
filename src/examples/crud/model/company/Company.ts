@@ -24,7 +24,7 @@ export class Company {
             return employeesWithId[0];
         } else {
             throw {
-                description: 'Could not find Employee with id!',
+                description: 'Could not find Employee with id " + id + "!',
                 self: this,
                 id: id,
                 company: this
