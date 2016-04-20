@@ -1,10 +1,8 @@
 import { Employee } from 'examples/crud/model/employee/Employee';
 
 export type CompanyAction 
-    = CreateEmployeeAction
-    | UpdateEmployeeAction
-    | DeleteEmployeeAction
-    | UpdateCompanyNameAction;
+    = UpdateEmployeeAction
+    | DeleteEmployeeAction;
 
 export class ActionWithEmployeeId {
     
@@ -14,18 +12,6 @@ export class ActionWithEmployeeId {
     
     public getEmployeeId(): number {
         return this.employeeId;
-    }
-    
-}
-
-export class CreateEmployeeAction {
-    
-    public constructor(private employee: Employee) {
-           
-    }
-    
-    public getEmployee(): Employee {
-        return this.employee;
     }
     
 }
@@ -43,17 +29,5 @@ export class UpdateEmployeeAction extends ActionWithEmployeeId {
 }
 
 export class DeleteEmployeeAction extends ActionWithEmployeeId {
-    
-}
-
-export class UpdateCompanyNameAction {
-    
-    public constructor(private companyName: string) {
-        
-    }
-    
-    public getCompanyName(): string {
-        return this.companyName;
-    }
     
 }

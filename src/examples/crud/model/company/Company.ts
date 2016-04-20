@@ -16,23 +16,6 @@ export class Company {
         return this.employees;
     }
     
-    public getEmployeeWithId(id: number): Employee {
-        
-        const employeesWithId = this.employees.filter(employee => employee.getId() === id);
-        
-        if (employeesWithId.length > 0) {
-            return employeesWithId[0];
-        } else {
-            throw {
-                description: 'Could not find Employee with id " + id + "!',
-                self: this,
-                id: id,
-                company: this
-            };
-        }
-        
-    }
-    
 }
 
 export class CompanyBuilder {
