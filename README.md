@@ -1,2 +1,2 @@
-# ortec-finance-angular
-AngularJS framework for Ortec Finance
+# ofgular
+AngularJS framework
